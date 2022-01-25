@@ -4,10 +4,12 @@
 let mainClock = document.getElementById("main-clock");
 let reminders = []
 let currentDate;
+let currentTimeInMinutes;
 
 setInterval(function () {
 	currentDate = new Date();
 	mainClock.innerText = currentDate.getHours()+":"+currentDate.getMinutes()+":"+currentDate.getSeconds();
+	currentTimeInMinutes = (currentDate.getHours()*60)+currentDate.getMinutes();
 }, 1000);
 
 // Primary clock logic ends
@@ -38,8 +40,9 @@ SetReminderTimeMinutes.innerHTML = SetReminderTimeMinutesInnerStuff;
 
 function AddReminder(){
 	let reminderToSet = {
-		"timeWhenReminderSet": (currentDate.getHours()*60)+currentDate.getMinutes(),
+		"timeWhenReminderSet": currentTimeInMinutes,
 		"intervalTime": parseInt((document.getElementById("SetReminderTimeHours").value)*60)+parseInt(document.getElementById("SetReminderTimeMinutes").value),
+		"nextReminderAt": currentTimeInMinutes + parseInt((document.getElementById("SetReminderTimeHours").value)*60)+parseInt(document.getElementById("SetReminderTimeMinutes").value),
 		"message": document.getElementById("reminderMessage").value,
 		"isCancle": 0,
 	}
@@ -74,7 +77,11 @@ function showAllReminder(){
 
 		allReminderDisplayBox.innerHTML = allReminderDisplayBox.innerHTML +`<div class="addedRemainderListItem rounded-border col-12 mx-0 my-2 p-2">
           ${reminders[i]["message"]}<br>
-          time interval :${Math.floor(reminders[i]["intervalTime"]/60)}hr${reminders[i]["intervalTime"]%60}min  
+          reminder set on: ${Math.floor(reminders[i]["timeWhenReminderSet"]/60)}hr${reminders[i]["timeWhenReminderSet"]%60}min
+          <br>
+          time interval :${Math.floor(reminders[i]["intervalTime"]/60)}hr${reminders[i]["intervalTime"]%60}min
+          <br>
+          next reminder on :${Math.floor(reminders[i]["nextReminderAt"]/60)}hr${reminders[i]["nextReminderAt"]%60}min  
         </div>`;
 	}
 
