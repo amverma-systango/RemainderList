@@ -1,0 +1,42 @@
+body{
+  background-color: rgba(242,242,242,1);
+  background-image: url(asset/mainBg1.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center top;
+}
+
+.rounded-border{
+  border-radius: 10px;
+}
+
+.base-box{
+  height: auto;
+}
+
+.parent-box{
+  background-color: rgba(255, 255, 255, 1);
+  height: 100vh;
+  
+}
+
+#main-clock-box{
+  background-color: rgba(60,60,60, 1);
+  color: rgba(255, 255, 255, 1);
+
+}
+
+#main-clock{
+  font-size: 3rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 1);
+}
+
+#add-reminder-box{
+  border:  2px solid rgba(150, 150, 150, 1.0);
+}
+
+.addedRemainderListItem{
+  min-height: 50px;
+  border:  2px solid rgba(36, 197, 122, 1.0);
+}
