@@ -103,7 +103,9 @@ function showAllReminder(){
           <br>
           time interval :${Math.floor(reminders[i]["intervalTime"]/60)}hr${reminders[i]["intervalTime"]%60}min
           <br>
-          next reminder on :${Math.floor(reminders[i]["nextReminderAt"]/60)}hr${reminders[i]["nextReminderAt"]%60}min  
+          next reminder on :${Math.floor(reminders[i]["nextReminderAt"]/60)}hr${reminders[i]["nextReminderAt"]%60}min 
+          <br><br>
+          <button class="btn btn-success py-1 px-2" onclick="editReminder(${i})">edit</button> 
         </div>`;
 	}
 
@@ -114,14 +116,66 @@ function showAllReminder(){
 // show Reminder logic ends
 
 
+//edit reminder logic
 
-function showAllNotification(passedreminder){
-	
+let editReminderTimeHours = document.getElementById("editReminderTimeHours");
+let editReminderTimeHoursInnerStuff = "";
+
+let editReminderTimeMinutes = document.getElementById("editReminderTimeMinutes");
+let editReminderTimeMinutesInnerStuff = "";
+
+for(let i=0; i<=24; i++){
+	editReminderTimeHoursInnerStuff = editReminderTimeHoursInnerStuff+`<option value="${i}">${i}</option>`;
 }
-// show notification logic ends
+
+for(let i=1; i<=60; i++){
+	editReminderTimeMinutesInnerStuff = editReminderTimeMinutesInnerStuff+`<option value="${i}">${i}</option>`;
+}
+
+editReminderTimeHours.innerHTML = SetReminderTimeHoursInnerStuff;
+editReminderTimeMinutes.innerHTML = SetReminderTimeMinutesInnerStuff;
 
 
+function editReminder( reminderToEditIndex  ){
 
+	// alert("edit reminder chala");
+	console.log("edit pressed");
+	console.log(reminderToEditIndex);//reminders
+	console.log(typeof(reminderToEditIndex));//reminders
+
+
+	let editReminderTimeHours = document.getElementById("editReminderTimeHours");
+	let editReminderTimeMinutes = document.getElementById("editReminderTimeMinutes");
+	let editReminderMessage = document.getElementById("editReminderMessage");
+	let editReminderConfirmButton = document.getElementById("editReminderConfirmButton");
+
+ 	editReminderTimeHours.disabled = false;
+ 	editReminderTimeMinutes .disabled = false;
+ 	editReminderMessage.disabled = false;
+	editReminderConfirmButton.disabled = false;
+
+	editReminderTimeHours.value = Math.floor(reminders[reminderToEditIndex]["intervalTime"]/60);
+	editReminderTimeMinutes.value = reminders[reminderToEditIndex]["intervalTime"]%60;
+	editReminderMessage.value = reminders[reminderToEditIndex]["message"];
+
+	document.getElementById("editReminderConfirmButton").addEventListener("click", 
+		function(){confirmEdit(reminderToEditIndex)});
+
+}
+
+
+function confirmEdit( rmindex ){
+
+	// alert("confirm edit chala");
+	
+	reminders[rmindex]["message"] = document.getElementById("editReminderMessage").value;
+	reminders[rmindex]["intervalTime"] = parseInt((document.getElementById("editReminderTimeHours").value)*60)+parseInt(document.getElementById("editReminderTimeMinutes").value);
+
+
+	showAllReminder();
+}
+
+//edit reminder logic ends
 
 
 
