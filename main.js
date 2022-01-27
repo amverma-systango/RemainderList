@@ -10,7 +10,36 @@ setInterval(function () {
 	currentDate = new Date();
 	mainClock.innerText = currentDate.getHours()+":"+currentDate.getMinutes()+":"+currentDate.getSeconds();
 	currentTimeInMinutes = (currentDate.getHours()*60)+currentDate.getMinutes();
+
 }, 1000);
+
+setInterval(function () {
+	//check for any reminder
+	console.log("intervval chala");
+
+	for(let itr=0; itr<reminders.length; itr++){
+		if( currentTimeInMinutes ===  reminders[itr]["nextReminderAt"] ){
+			console.log(reminders[itr]["message"]+" "+reminders[itr]["nextReminderAt"]);
+
+			reminders[itr]["nextReminderAt"] = currentTimeInMinutes + reminders[itr]["intervalTime"];
+			console.log(reminders[itr]["nextReminderAt"]);
+
+			// show notification logic
+			notifiactionListBox = document.getElementById("notifiactionListBox");
+			notifiactionListBox.innerHTML = `<div class="alert alert-warning" role="alert"><b>${reminders[itr]["message"]}<b>
+			<br>
+			<i>reminded at:</i> ${Math.floor(reminders[itr]["nextReminderAt"]/60)}hr${reminders[itr]["nextReminderAt"]%60}min
+			</div>
+			`+notifiactionListBox.innerHTML;
+
+			var audio = new Audio('./asset/bell.mp3');
+			audio.play();
+			// show notification logic ends
+		}
+	}
+
+	showAllReminder();
+}, 60000);
 
 // Primary clock logic ends
 
@@ -31,7 +60,7 @@ for(let i=0; i<=24; i++){
 	SetReminderTimeHoursInnerStuff = SetReminderTimeHoursInnerStuff+`<option value="${i}">${i}</option>`;
 }
 
-for(let i=0; i<=60; i++){
+for(let i=1; i<=60; i++){
 	SetReminderTimeMinutesInnerStuff = SetReminderTimeMinutesInnerStuff+`<option value="${i}">${i}</option>`;
 }
 
@@ -49,7 +78,7 @@ function AddReminder(){
 
 	// console.log(reminderToSet);
 	reminders.push(reminderToSet);
-	console.log(reminders);
+	// console.log(reminders);
 
 	showAllReminder();
 
@@ -63,13 +92,6 @@ function AddReminder(){
 function showAllReminder(){
 	allReminderDisplayBox = document.getElementById("reminderListBox");
 	allReminderDisplayBox.innerHTML = "";
-
-	/*
-	allReminderDisplayBox.innerHTML = allReminderDisplayBoxInnerStuff+"<b>bhosadike</b>";
-	allReminderDisplayBoxInnerStuff = allReminderDisplayBoxInnerStuff+ reminders.length;
-
-	*/
-
 
 	for(let i = 0; i<reminders.length; i++)
 	{
@@ -85,11 +107,19 @@ function showAllReminder(){
         </div>`;
 	}
 
-	console.log(reminders.length);
+	//console.log(reminders.length);
 
 }
 
 // show Reminder logic ends
+
+
+
+function showAllNotification(passedreminder){
+	
+}
+// show notification logic ends
+
 
 
 
